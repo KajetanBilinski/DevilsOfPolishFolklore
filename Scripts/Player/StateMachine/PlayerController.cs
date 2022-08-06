@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform itemCheck;
     [SerializeField] private Transform ladderCheck;
-    [SerializeField] private Transform interactionCheck;
 
     public Vector2 CurrentVelocity;
     public Vector2 CurrentPosition;
@@ -127,12 +126,6 @@ public class PlayerController : MonoBehaviour
     {
         return Physics2D.OverlapCircle(this.ladderCheck.position, this._movementParameters.LADDER_CHECK_RADIUS,
             this._movementParameters.LADDER_LAYER);
-    }
-
-    public bool CheckForInteraction()
-    {
-        return Physics2D.OverlapCircle(this.interactionCheck.position, this._movementParameters.INTERACTION_CHECK_RADIUS,
-            this._movementParameters.INTERACTION_LAYER);
     }
 
     private void Flip()
