@@ -34,9 +34,10 @@ namespace DefaultNamespace
             {
                 stateMachine.ChangeState(playerController.InAirState,playerController._animator);
             }
-            else if (playerController.CheckForGrounded() && playerController.CheckForPickupItem() && Input.GetButtonDown("Take") )
+            else if (playerController.CheckForGrounded() && playerController.CheckForPickupItem() && Input.GetButtonDown("Take"))
             {
-                stateMachine.ChangeState(playerController.CarryIdleState,playerController._animator);
+                if(playerController.PickUp())
+                    stateMachine.ChangeState(playerController.CarryIdleState,playerController._animator);
             }
             else if (playerController.CheckForGrounded() && Input.GetButtonDown("Crouch"))
             {

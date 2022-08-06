@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Player;
 using Player.PlayerStates.StateMachine;
 using ScriptableObject;
 using UnityEngine;
@@ -38,6 +39,9 @@ public class PlayerController : MonoBehaviour
     public int yInput;
     public int FacingDirection;
 
+    private GameObject closestItem;
+    private GameObject carryingItem;
+
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
@@ -50,7 +54,7 @@ public class PlayerController : MonoBehaviour
         ClimbState = new PlayerClimbState(this,this.StateMachine,this._movementParameters,"Climb");
         JumpState = new PlayerJumpState(this,this.StateMachine,this._movementParameters,"Jump");
         DeadState = new PlayerDeadState(this,this.StateMachine,this._movementParameters,"Dead");
-        InAirState = new PlayerInAirState(this,this.StateMachine,this._movementParameters,"Air");
+        InAirState = new PlayerInAirState(this,this.StateMachine,this._movementParameters,"InAir");
         HitState = new PlayerHitState(this,this.StateMachine,this._movementParameters,"Hit");
     }
 
@@ -68,6 +72,7 @@ public class PlayerController : MonoBehaviour
         this.CurrentPosition = this.transform.position;
         this.StateMachine.CurrentState.UpdateState();
         GetInputs();
+       
     }
     
 
@@ -138,9 +143,36 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Interaction") && Input.GetButtonDown("Interact") && StateMachine.CurrentState.Equals(IdleState))
+        if (col != null && closestItem != col.gameObject)
+            closestItem = col.gameObject;
+        if (col.gameObject.CompareTag("Apple"))
         {
-            
+            Destroy(col.gameObject);
+            PlayerData.instance.AddMoney(1);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D col) => OnTriggerEnter2D(col);
+
+    public void DropItem()
+    {
+        if(carryingItem==null )
+            return;
+        carryingItem.transform.position = gameObject.transform.position;
+        carryingItem.SetActive(true);
+        carryingItem = null;
+    }
+
+    public bool PickUp()
+    {
+        if (closestItem == null && carryingItem!=null)
+            return false;
+        else
+        {
+            closestItem.SetActive(false);
+            carryingItem = closestItem;
+            closestItem = null;
+            return true;
         }
     }
 }

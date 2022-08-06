@@ -21,6 +21,7 @@ namespace DefaultNamespace
             if (playerController.CheckForGrounded() && Input.GetButtonDown("Take"))
             {
                 // DROP 
+                playerController.DropItem();
                 stateMachine.ChangeState(playerController.IdleState,playerController._animator);
             }
             else if (playerController.CheckForGrounded() && Input.GetButton("Horizontal"))
@@ -30,6 +31,7 @@ namespace DefaultNamespace
             else if (!playerController.CheckForGrounded() && playerController.CurrentVelocity.y != 0)
             {
                 // DROP 
+                playerController.DropItem();
                 stateMachine.ChangeState(playerController.InAirState,playerController._animator);
             }
         }
