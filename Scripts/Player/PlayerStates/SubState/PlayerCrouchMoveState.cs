@@ -22,15 +22,15 @@ namespace DefaultNamespace
             this.playerController.SetVelocityX(this.movementParams.CROUCHING_SPEED*playerController.xInput);
             if (Input.GetButtonDown("Crouch") && playerController.CheckForGrounded())
             {
-                stateMachine.ChangeState(playerController.IdleState);
+                stateMachine.ChangeState(playerController.IdleState,playerController._animator);
             }
             else if (!Input.GetButton("Horizontal") && playerController.CheckForGrounded())
             {
-                stateMachine.ChangeState(playerController.CrouchIdleState);
+                stateMachine.ChangeState(playerController.CrouchIdleState,playerController._animator);
             }
-            else if (playerController.CheckForGrounded() && playerController.CurrentVelocity.y != 0)
+            else if (!playerController.CheckForGrounded() && playerController.CurrentVelocity.y != 0)
             {
-                stateMachine.ChangeState(playerController.InAirState);
+                stateMachine.ChangeState(playerController.InAirState,playerController._animator);
             }
         }
 

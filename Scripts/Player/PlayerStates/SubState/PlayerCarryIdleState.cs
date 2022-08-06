@@ -21,16 +21,16 @@ namespace DefaultNamespace
             if (playerController.CheckForGrounded() && Input.GetButtonDown("Take"))
             {
                 // DROP 
-                stateMachine.ChangeState(playerController.IdleState);
+                stateMachine.ChangeState(playerController.IdleState,playerController._animator);
             }
             else if (playerController.CheckForGrounded() && Input.GetButton("Horizontal"))
             {
-                stateMachine.ChangeState(playerController.CarryMoveState);
+                stateMachine.ChangeState(playerController.CarryMoveState,playerController._animator);
             }
             else if (!playerController.CheckForGrounded() && playerController.CurrentVelocity.y != 0)
             {
                 // DROP 
-                stateMachine.ChangeState(playerController.InAirState);
+                stateMachine.ChangeState(playerController.InAirState,playerController._animator);
             }
         }
 

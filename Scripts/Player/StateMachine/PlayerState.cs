@@ -9,7 +9,7 @@ namespace Player.PlayerStates.StateMachine
         protected PlayerStateMachine stateMachine;
         protected PlayerMovementParameters movementParams;
 
-        private string _animName;
+        public string _animName;
 
         protected float startTime;
 

@@ -22,17 +22,17 @@ namespace DefaultNamespace
             this.playerController.SetVelocityX(this.movementParams.CARRYING_SPEED*playerController.xInput);
             if (Input.GetButtonDown("Take") && playerController.CheckForGrounded())
             {
-                stateMachine.ChangeState(playerController.IdleState);
+                stateMachine.ChangeState(playerController.IdleState,playerController._animator);
             }
-            else if (!Input.GetButtonDown("Horizontal") && playerController.CheckForGrounded())
+            else if (!Input.GetButton("Horizontal") && playerController.CheckForGrounded())
             {
                 // drop || place
-                stateMachine.ChangeState(playerController.CarryIdleState);
+                stateMachine.ChangeState(playerController.CarryIdleState,playerController._animator);
             }
-            else if (playerController.CheckForGrounded() && playerController.CurrentVelocity.y != 0)
+            else if (!playerController.CheckForGrounded() && playerController.CurrentVelocity.y != 0)
             {
                 // drop
-                stateMachine.ChangeState(playerController.InAirState);
+                stateMachine.ChangeState(playerController.InAirState,playerController._animator);
             }
         }
 

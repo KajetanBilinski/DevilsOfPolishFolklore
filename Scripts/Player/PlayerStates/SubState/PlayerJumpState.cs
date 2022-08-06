@@ -25,11 +25,11 @@ namespace DefaultNamespace
             {
                 if (playerController.CheckForGrounded() && this.playerController.CurrentVelocity.y < Mathf.Epsilon)
                 {
-                    this.stateMachine.ChangeState(this.playerController.IdleState);
+                    this.stateMachine.ChangeState(this.playerController.IdleState,playerController._animator);
                 }
                 else
                 {
-                    this.stateMachine.ChangeState(this.playerController.InAirState);
+                    this.stateMachine.ChangeState(this.playerController.InAirState,playerController._animator);
                 }
             }
         }

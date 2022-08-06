@@ -40,12 +40,12 @@ namespace DefaultNamespace
           
             if (!playerController.CheckForLadder() && !playerController.CheckForGrounded())
             {
-                stateMachine.ChangeState(playerController.InAirState);
+                stateMachine.ChangeState(playerController.InAirState,playerController._animator);
                 playerController.rb.gravityScale = 1;
             }
             else if (!playerController.CheckForLadder() && playerController.CheckForGrounded())
             {
-                stateMachine.ChangeState(playerController.IdleState);
+                stateMachine.ChangeState(playerController.IdleState,playerController._animator);
                 playerController.rb.gravityScale = 1;
             }
         }

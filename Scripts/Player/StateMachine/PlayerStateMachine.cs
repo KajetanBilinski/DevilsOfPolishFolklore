@@ -14,13 +14,12 @@ namespace Player.PlayerStates.StateMachine
             //.Log("=======================");
         }
 
-        public void ChangeState(PlayerState newState)
+        public void ChangeState(PlayerState newState,Animator animator)
         {
             CurrentState.ExitState();
             CurrentState = newState;
             CurrentState.EnterState();
-            Debug.Log(CurrentState);
-            Debug.Log("=======================");
+            animator.Play(newState._animName);
         }
     }
 }

@@ -23,5 +23,7 @@ namespace ScriptableObject
         public LayerMask ITEM_LAYER;
         public float LADDER_CHECK_RADIUS = 0.01f;
         public LayerMask LADDER_LAYER;
+        public float INTERACTION_CHECK_RADIUS = 0.01f;
+        public LayerMask INTERACTION_LAYER;
     }
 }

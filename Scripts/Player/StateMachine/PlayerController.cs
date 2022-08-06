@@ -21,12 +21,14 @@ public class PlayerController : MonoBehaviour
     public PlayerHitState HitState;
 
     [SerializeField] private PlayerMovementParameters _movementParameters;
+    [SerializeField] public Animator _animator;
 
     public Rigidbody2D rb;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform itemCheck;
     [SerializeField] private Transform ladderCheck;
+    [SerializeField] private Transform interactionCheck;
 
     public Vector2 CurrentVelocity;
     public Vector2 CurrentPosition;
@@ -39,17 +41,17 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
-        IdleState = new PlayerIdleState(this,this.StateMachine,this._movementParameters,"idle");
-        MoveState = new PlayerMoveState(this,this.StateMachine,this._movementParameters,"move");
-        CarryIdleState = new PlayerCarryIdleState(this,this.StateMachine,this._movementParameters,"carryIdle");
-        CarryMoveState = new PlayerCarryMoveState(this,this.StateMachine,this._movementParameters,"carryMove");
-        CrouchIdleState = new PlayerCrouchIdleState(this,this.StateMachine,this._movementParameters,"crouchIdle");
-        CrouchMoveState = new PlayerCrouchMoveState(this,this.StateMachine,this._movementParameters,"crouchMove");
-        ClimbState = new PlayerClimbState(this,this.StateMachine,this._movementParameters,"climb");
-        JumpState = new PlayerJumpState(this,this.StateMachine,this._movementParameters,"jump");
-        DeadState = new PlayerDeadState(this,this.StateMachine,this._movementParameters,"dead");
-        InAirState = new PlayerInAirState(this,this.StateMachine,this._movementParameters,"air");
-        HitState = new PlayerHitState(this,this.StateMachine,this._movementParameters,"hit");
+        IdleState = new PlayerIdleState(this,this.StateMachine,this._movementParameters,"Idle");
+        MoveState = new PlayerMoveState(this,this.StateMachine,this._movementParameters,"Move");
+        CarryIdleState = new PlayerCarryIdleState(this,this.StateMachine,this._movementParameters,"CarryIdle");
+        CarryMoveState = new PlayerCarryMoveState(this,this.StateMachine,this._movementParameters,"CarryMove");
+        CrouchIdleState = new PlayerCrouchIdleState(this,this.StateMachine,this._movementParameters,"CrouchIdle");
+        CrouchMoveState = new PlayerCrouchMoveState(this,this.StateMachine,this._movementParameters,"CrouchMove");
+        ClimbState = new PlayerClimbState(this,this.StateMachine,this._movementParameters,"Climb");
+        JumpState = new PlayerJumpState(this,this.StateMachine,this._movementParameters,"Jump");
+        DeadState = new PlayerDeadState(this,this.StateMachine,this._movementParameters,"Dead");
+        InAirState = new PlayerInAirState(this,this.StateMachine,this._movementParameters,"Air");
+        HitState = new PlayerHitState(this,this.StateMachine,this._movementParameters,"Hit");
     }
 
     private void Start()
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
         this.StateMachine.CurrentState.UpdateState();
         GetInputs();
     }
+    
 
     private void GetInputs()
     {
@@ -121,9 +124,23 @@ public class PlayerController : MonoBehaviour
             this._movementParameters.LADDER_LAYER);
     }
 
+    public bool CheckForInteraction()
+    {
+        return Physics2D.OverlapCircle(this.interactionCheck.position, this._movementParameters.INTERACTION_CHECK_RADIUS,
+            this._movementParameters.INTERACTION_LAYER);
+    }
+
     private void Flip()
     {
         this.FacingDirection *= -1;
         this.transform.Rotate(0.0f, 180, 0.0f);
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Interaction") && Input.GetButtonDown("Interact") && StateMachine.CurrentState.Equals(IdleState))
+        {
+            
+        }
     }
 }

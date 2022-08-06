@@ -19,15 +19,15 @@ namespace DefaultNamespace
         {
             if (playerController.CheckForGrounded() && this.playerController.CurrentVelocity.y == 0 && !Input.GetButton("Horizontal"))
             {
-                this.stateMachine.ChangeState(this.playerController.IdleState);
+                this.stateMachine.ChangeState(this.playerController.IdleState,playerController._animator);
             }
             else if (playerController.CheckForGrounded() && this.playerController.CurrentVelocity.y == 0 && Input.GetButton("Horizontal"))
             {
-                this.stateMachine.ChangeState(this.playerController.MoveState);
+                this.stateMachine.ChangeState(this.playerController.MoveState,playerController._animator);
             }
             else if (playerController.CheckForLadder())
             {
-                this.stateMachine.ChangeState(this.playerController.ClimbState);
+                this.stateMachine.ChangeState(this.playerController.ClimbState,playerController._animator);
             }
             else
             {
